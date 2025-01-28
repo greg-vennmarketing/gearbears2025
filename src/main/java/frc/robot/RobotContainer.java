@@ -58,10 +58,10 @@ import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 public class RobotContainer
 {
     // The robot's subsystems and commands are defined here...
-    private final Shooter m_shooter = new Shooter();
-    private final Intake m_intake = new Intake();
-    private final flap m_flap = new flap();
-    private final climber m_climber = new climber();
+    //private final Shooter m_shooter = new Shooter();
+    //private final Intake m_intake = new Intake();
+    //private final flap m_flap = new flap();
+    //private final climber m_climber = new climber();
 
     // Replace with CommandPS4Controller or CommandJoystick if needed
     private final XboxController driverController =
@@ -74,12 +74,14 @@ public class RobotContainer
     /** The container for the robot. Contains subsystems, OI devices, and commands. */
     public RobotContainer()
     {
-        swerveInputsManager = new SwerveInputsManager(()-> -driverController.getLeftY(),
+        swerveInputsManager = new SwerveInputsManager(
+                                        ()-> -driverController.getLeftY(),
                                         ()-> -driverController.getLeftX(),
                                         ()-> -driverController.getRightX(),
                                         ()->true,
                                         0.4,
-                                        0.75);
+                                        0.75
+        );
         joystickCmd = new SwerveJoystickCmd(swerveInputsManager);
         SwerveSubsystem.getInstance().setDefaultCommand(joystickCmd);
         //Configure the trigger bindings
@@ -105,22 +107,30 @@ public class RobotContainer
         // cancelling on release.
         new Trigger(driverController::getBButtonPressed).onTrue(Commands.runOnce(SwerveSubsystem.getInstance()::zeroHeading, SwerveSubsystem.getInstance()));
         //new Trigger(driverController::get).onTrue(Commands.runOnce(SwerveSubsystem.getInstance()::zeroHeading, SwerveSubsystem.getInstance()));
+        
+        
+        /*
         new Trigger(driverController::getAButton).whileTrue(new ParallelCommandGroup( 
             m_shooter.getRunReverseShooter(),
             m_intake.getRunOutakeCommand()
             )
          );
+        */
+
          //Run reverse intake when A button is pressed (temp, change to LB when possible)
-        new Trigger(driverController::getXButton).whileTrue(new ParallelCommandGroup(
+        /*
+         new Trigger(driverController::getXButton).whileTrue(new ParallelCommandGroup(
             m_shooter.getShooterCommand().withTimeout(1),
-            m_intake.getRunIntakeCommand().withTimeout(2)));
+            m_intake.getRunIntakeCommand().withTimeout(2))
+        );
+        */
 
           //shoot and intake (to get enough oomph into speaker) while X button is pressed (temp, change to RB)
-        new Trigger(driverController::getRightBumperButton).whileTrue(m_shooter.getShooterCommand()); //shoot when RB Button is pressed (temp, change to RT)
-        new Trigger(driverController::getLeftBumperButton).whileTrue(m_intake.getRunIntakeCommand()); //intake when LB is pressed(temp, change to LT)
-        new Trigger(driverController::getYButton).whileTrue(m_shooter.getSlowShootCommand()); // slow shoot when Y button pressed for speaker (not temp :)
+        //new Trigger(driverController::getRightBumperButton).whileTrue(m_shooter.getShooterCommand()); //shoot when RB Button is pressed (temp, change to RT)
+        //new Trigger(driverController::getLeftBumperButton).whileTrue(m_intake.getRunIntakeCommand()); //intake when LB is pressed(temp, change to LT)
+        //new Trigger(driverController::getYButton).whileTrue(m_shooter.getSlowShootCommand()); // slow shoot when Y button pressed for speaker (not temp :)
         // Start Mechanism controller Code
-        new Trigger(mechanismController::getRightBumperButton).whileTrue(m_climber.getRunClimb()); //run the climb motor
+        //new Trigger(mechanismController::getRightBumperButton).whileTrue(m_climber.getRunClimb()); //run the climb motor
     }
     
     
@@ -129,9 +139,11 @@ public class RobotContainer
      *
      * @return the command to run in autonomous
      */
+    /*
     public Command getAutonomousCommand()
     {
         // An example command will be run in autonomous
+        
         return new SequentialCommandGroup(
            m_shooter.getStartShooterCommand(),
            new WaitCommand(.50), //start shooter to use intake, get motors fired up
@@ -186,4 +198,5 @@ public class RobotContainer
 
 
     }
+    */
 }
