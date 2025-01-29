@@ -82,7 +82,7 @@ public class SwerveModule {
         this.absEncoder = new CANcoder(swerveModuleConstants.absoluteEncoderId);
         this.absolutePositionSignal = absEncoder.getAbsolutePosition();
     
-        this.turnPIDController = new PIDController(0.0, 0.0, 0.0);
+        this.turnPIDController = new PIDController(0.5, 0.0, 0.0);
         this.turnPIDController.enableContinuousInput(-Math.PI, Math.PI);
     
         resetEncoders();
@@ -186,15 +186,15 @@ public class SwerveModule {
 
     //If you want, you can try setting using the Neo relative encoders
 
-    @SuppressWarnings("deprecation")
+    //@SuppressWarnings("deprecation")
     public void setSwerveModuleState(SwerveModuleState desiredState){
         if (Math.abs(desiredState.speedMetersPerSecond) < 0.01){
             desiredState.angle = lastAngle;
         }
-        desiredState = SwerveModuleState.optimize(desiredState, getAngleRotation2d());
-        driveMotor.set(desiredState.speedMetersPerSecond/Constants.PhysicalConstants.kPhysicalMaxSpeedMetersPerSec);
-        turnMotor.set(turnPIDController.calculate(Units.degreesToRadians(getAbsAngleDeg()), Units.degreesToRadians(desiredState.angle.getDegrees())));
-        lastAngle = desiredState.angle;
+    //    desiredState = SwerveModuleState.optimize(desiredState, getAngleRotation2d());
+       driveMotor.set(desiredState.speedMetersPerSecond/Constants.PhysicalConstants.kPhysicalMaxSpeedMetersPerSec);
+       turnMotor.set(turnPIDController.calculate(Units.degreesToRadians(getAbsAngleDeg()), Units.degreesToRadians(desiredState.angle.getDegrees())));
+       lastAngle = desiredState.angle;
     }
 
 }

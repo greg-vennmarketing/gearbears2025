@@ -29,10 +29,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
  
 
 public class SwerveSubsystem extends SubsystemBase {
-  
-
-
-
+    
     private static SwerveSubsystem INSTANCE;
 
     private final AHRS gyro = new AHRS(NavXComType.kMXP_SPI);
