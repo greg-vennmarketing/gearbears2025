@@ -40,27 +40,80 @@ public final class Constants
                 new Translation2d(-kWheelBase / 2, -kTrackWidth / 2), //
                 new Translation2d(-kWheelBase / 2, kTrackWidth / 2)); //
     }
-   public static class SwerveModuleConstantsInstances {
-       public static final SwerveModuleConstants kFrontLeftModule = new SwerveModuleConstants(1,
-               11, 21, 31, 0,
-               false, false,
-               false);
+public static class SwerveModuleConstantsInstances {
+    public static final SwerveModuleConstants kFrontLeftModule = new SwerveModuleConstants(
+        1,
+        11, 
+        21, 
+        31, 
+        0,
+        false, 
+        false,
+        false
+    );
 
-       public static final SwerveModuleConstants kFrontRightModule = new SwerveModuleConstants(2,
-               10, 20, 30, 0,
-               true, false,
-               false);
+    /*
+    public static final SwerveModuleConstants kFrontRightModule = new SwerveModuleConstants(
+        2,
+        10, 
+        20, 
+        30, 
+        0,
+        true, 
+        false,
+        false
+    );
+    */
 
-       public static final SwerveModuleConstants kBackRightModule = new SwerveModuleConstants(3,
-               12, 22, 32, 0,
-               true, false,
-               false);
+    /*
+    public static final SwerveModuleConstants kBackRightModule = new SwerveModuleConstants(
+        3,
+        12, 
+        22, 
+        32, 
+        0,
+        true, 
+        false,
+        false
+    );
+    */
 
-       public static final SwerveModuleConstants kBackLeftModule = new SwerveModuleConstants(4,
-               13, 23, 33, 0,
-               false, false,
-               false);
-   }
+    public static final SwerveModuleConstants kBackLeftModule = new SwerveModuleConstants(
+        4,
+        13, 
+        23, 
+        33, 
+        0,
+        false, 
+        false,
+        false);
+   
+    // -----------
+
+    public static final SwerveModuleConstants kFrontRightModule = new SwerveModuleConstants(
+        2,
+        10, 
+        20, 
+        30, 
+        0,
+        false, 
+        false,
+        false
+    );
+
+    public static final SwerveModuleConstants kBackRightModule = new SwerveModuleConstants(
+        3,
+        12, 
+        22, 
+        32, 
+        0,
+        false, 
+        false,
+        false
+        );
+   
+   
+            }
    public static class OperatorConstants {
     public static final int DRIVER_CONTROLLER_PORT = 0;
     public static final int MECHANISM_CONTROLLER_PORT = 1;

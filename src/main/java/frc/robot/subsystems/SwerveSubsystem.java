@@ -86,7 +86,8 @@ SwerveModule frontLeft = new SwerveModule(Constants.SwerveModuleConstantsInstanc
     }
 
     public double getHeading(){
-        return Math.IEEEremainder(-gyro.getAngle(), 360);
+        //return Math.IEEEremainder(-gyro.getAngle(), 360);
+        return Math.IEEEremainder(gyro.getAngle(), 360);
     }
 
     public Rotation2d getHeadingRotation2d(){
@@ -102,10 +103,20 @@ SwerveModule frontLeft = new SwerveModule(Constants.SwerveModuleConstantsInstanc
 
     public void setModuleStates(SwerveModuleState[] desiredStates){
         SwerveDriveKinematics.desaturateWheelSpeeds(desiredStates, Constants.PhysicalConstants.kPhysicalMaxSpeedMetersPerSec);
-        frontLeft.setSwerveModuleState(desiredStates[1]);
-        frontRight.setSwerveModuleState(desiredStates[0]);
-       backLeft.setSwerveModuleState(desiredStates[3]);
-        backRight.setSwerveModuleState(desiredStates[2]);
+
+        /*
+        frontLeft.setSwerveModuleState(desiredStates[1]); 
+        frontRight.setSwerveModuleState(desiredStates[0]); 
+        backLeft.setSwerveModuleState(desiredStates[3]); 
+        backRight.setSwerveModuleState(desiredStates[2]); 
+        */
+
+
+        // Correct the order of states applied to modules
+        frontLeft.setSwerveModuleState(desiredStates[0]);
+        frontRight.setSwerveModuleState(desiredStates[1]);
+        backLeft.setSwerveModuleState(desiredStates[2]);
+        backRight.setSwerveModuleState(desiredStates[3]);
     }
 
 

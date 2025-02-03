@@ -2,6 +2,7 @@ package frc.robot.commands;
 
 import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.IOConstants;
 import frc.robot.Utils.InputsManager.SwerveInputsManager;
 import frc.robot.subsystems.SwerveSubsystem;
 
@@ -27,10 +28,29 @@ public class SwerveJoystickCmd extends Command {
      * The main body of a command.  Called repeatedly while the command is scheduled.
      * (That is, it is called repeatedly until {@link #isFinished()}) returns true.)
      */
+    
+    /*
     @Override
     public void execute() {
         SwerveModuleState[] swerveModuleStates = swerveInputsManager.getSwerveModuleStates();
         swerveSubsystem.setModuleStates(swerveModuleStates);
+    }
+    */
+
+    @Override
+    public void execute() {
+        SwerveModuleState[] swerveModuleStates = swerveInputsManager.getSwerveModuleStates();
+
+        // Apply deadband to prevent unintended movement
+        for (int i = 0; i < swerveModuleStates.length; i++) {
+            swerveModuleStates[i].speedMetersPerSecond = deadband(swerveModuleStates[i].speedMetersPerSecond, IOConstants.kDeadband);
+        }
+
+        swerveSubsystem.setModuleStates(swerveModuleStates);
+    }
+
+    private double deadband(double value, double threshold) {
+        return (Math.abs(value) > threshold) ? value : 0.0;
     }
 
     /**
