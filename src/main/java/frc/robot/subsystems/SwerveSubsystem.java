@@ -62,7 +62,7 @@ public class SwerveSubsystem extends SubsystemBase {
 
   public SwerveSubsystem() {
 
-      SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH; //GET RID OF THIS IN COMPETITION
+      //SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH; //GET RID OF THIS IN COMPETITION
 
         try
     {
