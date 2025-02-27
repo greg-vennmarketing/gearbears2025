@@ -49,44 +49,48 @@ import swervelib.SwerveInputStream;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  // The robot's subsystems and commands are defined here...
-  private final ElevatorSubsystem elevator = new ElevatorSubsystem();
-  private final SwerveSubsystem drivebase = new SwerveSubsystem();
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  private final CommandXboxController m_driverController =
-      new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  private final XboxController m_mechanismController =
-      new XboxController(OperatorConstants.kMechanismControllerPort);
+    
+    // The robot's subsystems and commands are defined here...
+    private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+    private final SwerveSubsystem drivebase = new SwerveSubsystem();
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    // Configure the trigger bindings
-    DriverStation.silenceJoystickConnectionWarning(true);
-    configureBindings();
-    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
-    NamedCommands.registerCommand("test", Commands.print("Hello World"));
-  }
+    // Replace with CommandPS4Controller or CommandJoystick if needed
+    private final CommandXboxController m_driverController =
+        new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    private final XboxController m_mechanismController =
+        new XboxController(OperatorConstants.kMechanismControllerPort);
 
-  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-                                                                                            () -> m_driverController.getLeftY() * -1,
-                                                                                            () -> m_driverController.getLeftX() * -1)
-                                                                                          .withControllerRotationAxis(m_driverController::getRightX)
-                                                                                          .deadband(OperatorConstants.DEADBAND)
-                                                                                          .scaleTranslation(0.8)
-                                                                                          .allianceRelativeControl(true);
-  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
-                                                                                            m_driverController::getRightY)
-                                                        .headingWhile(true);
+    /** The container for the robot. Contains subsystems, OI devices, and commands. */
+    public RobotContainer() {
+        
+        // Configure the trigger bindings
+        DriverStation.silenceJoystickConnectionWarning(true);
+        configureBindings();
+        drivebase.setDefaultCommand(!RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
+        NamedCommands.registerCommand("test", Commands.print("Hello World"));
+    }
 
-
-
-
-  Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
-  Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+    SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+        () -> m_driverController.getLeftY() * -1,
+        () -> m_driverController.getLeftX() * -1)
+        .withControllerRotationAxis(m_driverController::getRightX)
+        .deadband(OperatorConstants.DEADBAND)
+        .scaleTranslation(0.8)
+        .allianceRelativeControl(true);
+    
+    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
+        m_driverController::getRightY)
+        .headingWhile(true);
 
 
 
-  SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
+
+    Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
+    Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+
+
+
+    SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                         () -> -m_driverController.getLeftY(),
                                                                         () -> -m_driverController.getLeftX())
                                                                         .withControllerRotationAxis(() -> m_driverController.getRawAxis(2))
