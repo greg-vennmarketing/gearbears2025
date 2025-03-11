@@ -7,13 +7,22 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.cameraserver.CameraServer;
 
+import com.studica.frc.AHRS;
+
+// Muhammad's Camera Import
+import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
  * this project, you must also update the Main.java file in the project.
  */
 public class Robot extends TimedRobot {
+
+  private AHRS navX; 
   private Command m_autonomousCommand;
 
   private final RobotContainer m_robotContainer;
@@ -25,7 +34,12 @@ public class Robot extends TimedRobot {
   public Robot() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+
+
     m_robotContainer = new RobotContainer();
+
+    CameraServer.startAutomaticCapture();
+
   }
 
   /**
@@ -72,14 +86,30 @@ public class Robot extends TimedRobot {
     // teleop starts running. If you want the autonomous to
     // continue until interrupted by another command, remove
     // this line or comment it out.
+
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
   }
 
+
+  /* 
+    @Override
+    public void robotInit() 
+    {
+      navX = new
+
+
+    }*/
+
+
   /** This function is called periodically during operator control. */
   @Override
-  public void teleopPeriodic() {}
+  public void teleopPeriodic() {
+    
+
+
+  }
 
   @Override
   public void testInit() {
@@ -98,4 +128,14 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+
+  // Muhammad's code for camera feed on shuffleboard
+//  @Override
+//  public void robotInit() {
+//    CameraServer.startAutomaticCapture();
+//
+//    ShuffleboardTab tab = Shuffleboard.getTab("Camera Feed");
+//    tab.add("Limelight Stream", CameraServer.getServer());
+//  }
 }
