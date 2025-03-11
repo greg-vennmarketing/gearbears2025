@@ -6,26 +6,31 @@ package frc.robot.commands;
 
 //import frc.robot.subsystems.ElevatorSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants.ElevatorConstants;
+import frc.robot.subsystems.ElevatorSubsystem;
 
 /** An example command that uses an example subsystem. */
-public class ExampleCommand extends Command {
+public class HomeElevator extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-//  private final ElevatorSubsystem m_subsystem;
+  private final ElevatorSubsystem m_elevator;
 
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param ElevatorSubsystem The subsystem used by this command.
    */
-//  public ExampleCommand(ElevatorSubsystem subsystem) {
-//    m_subsystem = subsystem;
+  public HomeElevator(ElevatorSubsystem subsystem) {
+    m_elevator = subsystem;
     // Use addRequirements() here to declare subsystem dependencies.
-//    addRequirements(subsystem);
-//  }
+    addRequirements(subsystem);
+  }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_elevator.setPositionInches(ElevatorConstants.downPos);
+    System.out.println("HomeElevator started.");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -33,11 +38,13 @@ public class ExampleCommand extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    System.out.println("HomeElevator ended.");
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return Math.abs(m_elevator.getHeightInches() - ElevatorConstants.downPos) < 0.5;
   }
 }

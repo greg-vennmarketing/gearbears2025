@@ -7,16 +7,22 @@ package frc.robot;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Autos;
-import frc.robot.commands.ExampleCommand;
+import frc.robot.commands.HomeElevator;
+import frc.robot.commands.L1Command;
+import frc.robot.commands.L4Command;
 import frc.robot.subsystems.ElevatorSubsystem;
+import frc.robot.subsystems.EffectorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -42,6 +48,9 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.SwerveSubsystem;
 import java.io.File;
 import swervelib.SwerveInputStream;
+
+import static edu.wpi.first.wpilibj2.command.button.RobotModeTriggers.*;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a
  * "declarative" paradigm, very little robot logic should actually be handled in the {@link Robot}
@@ -49,48 +58,52 @@ import swervelib.SwerveInputStream;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-    
-    // The robot's subsystems and commands are defined here...
-    private final ElevatorSubsystem elevator = new ElevatorSubsystem();
-    private final SwerveSubsystem drivebase = new SwerveSubsystem();
+  // The robot's subsystems and commands are defined here...
+  private final ElevatorSubsystem elevator = new ElevatorSubsystem();
+  private final EffectorSubsystem effector = new EffectorSubsystem();
+  private final SwerveSubsystem drivebase = new SwerveSubsystem();
+  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final CommandXboxController m_driverController =
+      new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  private final XboxController m_mechanismController =
+      new XboxController(OperatorConstants.kMechanismControllerPort);
 
-    // Replace with CommandPS4Controller or CommandJoystick if needed
-    private final CommandXboxController m_driverController =
-        new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    private final XboxController m_mechanismController =
-        new XboxController(OperatorConstants.kMechanismControllerPort);
+  /** The container for the robot. Contains subsystems, OI devices, and commands. */
+  public RobotContainer() {
+    // Configure the trigger bindings
+    DriverStation.silenceJoystickConnectionWarning(true);
+    configureBindings();
+    drivebase.setDefaultCommand(!RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
 
-    /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    public RobotContainer() {
-        
-        // Configure the trigger bindings
-        DriverStation.silenceJoystickConnectionWarning(true);
-        configureBindings();
-        drivebase.setDefaultCommand(!RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
-        NamedCommands.registerCommand("test", Commands.print("Hello World"));
-    }
+//pathplanner commands
+    NamedCommands.registerCommand("shoot", effector.shoot());
+    NamedCommands.registerCommand("stopshoot", effector.stop());
+    NamedCommands.registerCommand("L1Command", new L1Command(elevator));
+    NamedCommands.registerCommand("L4Command", new L4Command(elevator));
+    NamedCommands.registerCommand("HomeElevator", new HomeElevator(elevator));
 
-    SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
-        () -> m_driverController.getLeftY() * -1,
-        () -> m_driverController.getLeftX() * -1)
-        .withControllerRotationAxis(m_driverController::getRightX)
-        .deadband(OperatorConstants.DEADBAND)
-        .scaleTranslation(0.8)
-        .allianceRelativeControl(true);
-    
-    SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
-        m_driverController::getRightY)
-        .headingWhile(true);
+  }
 
-
-
-
-    Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
-    Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+  SwerveInputStream driveAngularVelocity = SwerveInputStream.of(drivebase.getSwerveDrive(),
+                                                                                            () -> m_driverController.getLeftY() * -1,
+                                                                                            () -> m_driverController.getLeftX() * -1)
+                                                                                          .withControllerRotationAxis(m_driverController::getRightX)
+                                                                                          .deadband(OperatorConstants.DEADBAND)
+                                                                                          .scaleTranslation(0.8)
+                                                                                          .allianceRelativeControl(true);
+  SwerveInputStream driveDirectAngle = driveAngularVelocity.copy().withControllerHeadingAxis(m_driverController::getRightX,
+                                                                                            m_driverController::getRightY)
+                                                        .headingWhile(true);
 
 
 
-    SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
+
+  Command driveFieldOrientedDirectAngle      = drivebase.driveFieldOriented(driveDirectAngle);
+  Command driveFieldOrientedAnglularVelocity = drivebase.driveFieldOriented(driveAngularVelocity);
+
+
+
+  SwerveInputStream driveAngularVelocityKeyboard = SwerveInputStream.of(drivebase.getSwerveDrive(),
                                                                         () -> -m_driverController.getLeftY(),
                                                                         () -> -m_driverController.getLeftX())
                                                                         .withControllerRotationAxis(() -> m_driverController.getRawAxis(2))
@@ -143,6 +156,36 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
 
     new JoystickButton(m_mechanismController, XboxController.Button.kBack.value)
         .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.downPos)));
+
+
+//new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+//.onTrue(new InstantCommand(() -> effector.getStartShooterCommand()));
+
+//new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+//.whileTrue();
+
+new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+    .whileTrue(new InstantCommand(() -> effector.shoot()))
+    .onFalse(new InstantCommand(() -> effector.stop()));
+
+// Going to L4
+//new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+//.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L4)));
+
+// Going to
+//new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+//.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L3)));
+
+
+
+
+    
+
+
+
+
+
+
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -151,7 +194,7 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Auto");
+    return drivebase.getAutonomousCommand("forwardauto");
   }
 
 
