@@ -15,6 +15,7 @@ import frc.robot.subsystems.EffectorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -186,16 +187,34 @@ new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.val
 
 
 
-  }
-  /**
-   * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
-   * @return the command to run in autonomous
-   */
-  public Command getAutonomousCommand() {
-    // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("forwardauto");
-  }
+    }
+    
+    /**
+    * Use this to pass the autonomous command to the main {@link Robot} class.
+    *
+    * @return the command to run in autonomous
+    */
+    public Command getAutonomousCommand() {
+        // An example command will be run in autonomous
+        return drivebase.getAutonomousCommand("forwardauto");
+    }
 
+
+
+    /**
+     * Add a fake vision reading for testing purposes.
+     */
+    public void addFakeVisionReading() {
+        // swerveDrive.addVisionMeasurement(
+        drivebase.getSwerveDrive().addVisionMeasurement(
+            new Pose2d(
+                3, 
+                3, 
+                Rotation2d.fromDegrees(65)
+            ), 
+            Timer.getFPGATimestamp()
+        );
+
+    }
 
 }
