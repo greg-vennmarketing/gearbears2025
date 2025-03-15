@@ -141,53 +141,57 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
    * joysticks}.
    */
 
-   private void configureBindings() {
-    new JoystickButton(m_mechanismController, XboxController.Button.kA.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L1)));
-
-    new JoystickButton(m_mechanismController, XboxController.Button.kB.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L2)));
-
+    private void configureBindings() {
         
-    new JoystickButton(m_mechanismController, XboxController.Button.kX.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L3)));
+        // L1 height
+        new JoystickButton(m_mechanismController, XboxController.Button.kA.value)
+            .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L1)));
 
-    new JoystickButton(m_mechanismController, XboxController.Button.kY.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L4)));
+        // L2 height
+        new JoystickButton(m_mechanismController, XboxController.Button.kB.value)
+            .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L2)));
+        
+        // L3 height
+        new JoystickButton(m_mechanismController, XboxController.Button.kX.value)
+            .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L3)));
 
-    new JoystickButton(m_mechanismController, XboxController.Button.kBack.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.downPos)));
+        // L4 height
+        new JoystickButton(m_mechanismController, XboxController.Button.kY.value)
+            .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L4)));
 
+        // Home    
+        new JoystickButton(m_mechanismController, XboxController.Button.kBack.value)
+            .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.downPos)));
 
-//new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
-//.onTrue(new InstantCommand(() -> effector.getStartShooterCommand()));
+        // Shoot while pressed
+        new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+            .whileTrue(new InstantCommand(() -> effector.shoot()))
+            .onFalse(new InstantCommand(() -> effector.stop()));
 
-//new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
-//.whileTrue();
-
-new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
-    .whileTrue(new InstantCommand(() -> effector.shoot()))
-    .onFalse(new InstantCommand(() -> effector.stop()));
-
-// Going to L4
-//new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
-//.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L4)));
-
-// Going to
-//new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
-//.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L3)));
-
-
-
-
-    
+        // Intake until visual sensor is broken
+        new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+            .whileTrue(new InstantCommand(() -> effector.loadUntilBeamBreak()))
+            .onFalse(new InstantCommand(() -> effector.stop()));
 
 
+        //new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+        //.onTrue();
+
+        //new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+        //.whileTrue();
+
+
+        // Going to L4
+        //new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+        //.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L4)));
+
+        // Going to
+        //new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+        //.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L3)));
 
 
 
-
-    }
+    } // end configureBindings
     
     /**
     * Use this to pass the autonomous command to the main {@link Robot} class.
