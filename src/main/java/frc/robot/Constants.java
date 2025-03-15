@@ -67,6 +67,8 @@ public final class Constants {
     public static final double countsPerInch = 60.87201011;
     public static final double stallCurrentThreshold = 50;
 
+    public static final double beamBreakDigitalInputID = 1;
+
   
     public static final double maxSimulatedSpeed = Meters.of(4).per(Second).in(MetersPerSecond);
 
