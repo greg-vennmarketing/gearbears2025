@@ -9,6 +9,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 
+import java.io.IOException;
+
 import com.studica.frc.AHRS;
 
 // Muhammad's Camera Import
@@ -35,10 +37,9 @@ public class Robot extends TimedRobot {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
 
-
     m_robotContainer = new RobotContainer();
 
-    CameraServer.startAutomaticCapture();
+   // CameraServer.startAutomaticCapture();
 
   }
 
@@ -106,8 +107,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-    
-
 
   }
 

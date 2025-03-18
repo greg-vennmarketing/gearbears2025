@@ -23,33 +23,15 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 6.0
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "HomeElevator"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "TL4 #1.5"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "TL4 #2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "L4Command"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "TL4 #2.5"
           }
         }
       ]
