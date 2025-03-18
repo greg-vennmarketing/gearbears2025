@@ -1,0 +1,97 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": " TL4 #1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4Command"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "HomeElevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TL4 #1.5"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TL4 #2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "L4Command"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 1.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Shoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "StopShoot"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "HomeElevator"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TL4 #2.5"
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": null,
+  "choreoAuto": false
+}

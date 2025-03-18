@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.45025,
-        "y": 5.3705
+        "x": 3.8600409836065577,
+        "y": 5.205788934426229
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.3875,
-        "y": 6.2675
+        "x": 3.089790983606558,
+        "y": 6.03453893442623
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "TL4 1"
     },
     {
       "anchor": {
-        "x": 1.4039999999999997,
-        "y": 7.184
+        "x": 1.599,
+        "y": 7.3302499999999995
       },
       "prevControl": {
-        "x": 1.9946864780549944,
-        "y": 6.649552850079362
+        "x": 2.108829250005357,
+        "y": 6.7595889004932035
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "TL4 1.5"
     }
   ],
   "rotationTargets": [],
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -51.84277341263084
+    "rotation": -55.0
   },
   "reversed": false,
   "folder": "TL4 2.5 auto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": -121.42956561483835
+    "rotation": -59.99999999999999
   },
   "useDefaultConstraints": true
 }

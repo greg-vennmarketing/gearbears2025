@@ -1,9 +1,10 @@
 {
-  "robotWidth": 0.9,
-  "robotLength": 0.9,
+  "robotWidth": 0.93,
+  "robotLength": 0.93,
   "holonomicMode": true,
   "pathFolders": [
     "BL4 2.5 Auto",
+    "Push Auto 1.5",
     "TL4 2.5 auto"
   ],
   "autoFolders": [],
@@ -31,5 +32,7 @@
   "brModuleY": -0.298,
   "bumperOffsetX": 0.0,
   "bumperOffsetY": 0.0,
-  "robotFeatures": []
+  "robotFeatures": [
+    "{\"name\":\"Line\",\"type\":\"line\",\"data\":{\"start\":{\"x\":0.47,\"y\":0.13},\"end\":{\"x\":-0.47,\"y\":0.13},\"strokeWidth\":0.02}}"
+  ]
 }

@@ -41,7 +41,7 @@ public final class Constants {
     public static final double kElevatorKi = 0;//subject to change. Temporary    
     public static final double kElevatorKd = 0.58;//subject to change. Temporary
 
-    public static final double kMaxVelocity = Meters.of(3).per(Second).in(MetersPerSecond);
+    public static final double kMaxVelocity = Meters.of(3.5).per(Second).in(MetersPerSecond);
     public static final double kMaxAcceleration = Meters.of(1.5).per(Second).per(Second).in(MetersPerSecondPerSecond);
 
     public static final double kElevatorkS = 0.02;

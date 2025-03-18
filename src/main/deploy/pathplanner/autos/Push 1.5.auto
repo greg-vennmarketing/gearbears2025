@@ -7,13 +7,19 @@
         {
           "type": "path",
           "data": {
-            "pathName": "forward"
+            "pathName": "Push back"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Shoot"
+            "pathName": "Push 1 L4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "TL4 #1.5"
           }
         }
       ]

@@ -6,10 +6,13 @@ package frc.robot;
 
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.AllignLeft;
 import frc.robot.commands.Autos;
 import frc.robot.commands.HomeElevator;
 import frc.robot.commands.L1Command;
 import frc.robot.commands.L4Command;
+import frc.robot.commands.Shoot;
+import frc.robot.commands.StopShoot;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.EffectorSubsystem;
 import frc.robot.subsystems.SwerveSubsystem;
@@ -28,6 +31,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj.event.EventLoop;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -58,6 +62,7 @@ import static edu.wpi.first.wpilibj2.command.button.RobotModeTriggers.*;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
+  public Client cli;
   // The robot's subsystems and commands are defined here...
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final EffectorSubsystem effector = new EffectorSubsystem();
@@ -70,14 +75,15 @@ public class RobotContainer {
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
   public RobotContainer() {
+    cli = new Client(10005);
     // Configure the trigger bindings
     DriverStation.silenceJoystickConnectionWarning(true);
     configureBindings();
     drivebase.setDefaultCommand(!RobotBase.isSimulation() ? driveFieldOrientedAnglularVelocity : driveFieldOrientedDirectAngleSim);
 
 //pathplanner commands
-    NamedCommands.registerCommand("shoot", effector.shoot());
-    NamedCommands.registerCommand("stopshoot", effector.stop());
+    NamedCommands.registerCommand("Shoot", new Shoot(effector).withTimeout(1));
+    NamedCommands.registerCommand("StopShoot", new StopShoot(effector).withTimeout(0.1));
     NamedCommands.registerCommand("L1Command", new L1Command(elevator));
     NamedCommands.registerCommand("L4Command", new L4Command(elevator));
     NamedCommands.registerCommand("HomeElevator", new HomeElevator(elevator));
@@ -157,24 +163,18 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
     new JoystickButton(m_mechanismController, XboxController.Button.kBack.value)
         .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.downPos)));
 
-
-//new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
-//.onTrue(new InstantCommand(() -> effector.getStartShooterCommand()));
-
-//new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
-//.whileTrue();
+    m_driverController.leftBumper().onTrue(new AllignLeft(cli.id, cli.position, cli, drivebase));
 
 new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
     .whileTrue(new InstantCommand(() -> effector.shoot()))
     .onFalse(new InstantCommand(() -> effector.stop()));
 
-// Going to L4
-//new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
-//.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L4)));
 
-// Going to
-//new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
-//.onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L3)));
+new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+    .whileTrue(new InstantCommand(() -> effector.intake()))
+    .onFalse(new InstantCommand(() -> effector.stop()));
+
+
 
 
 
@@ -194,7 +194,7 @@ new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.val
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("forwardauto");
+    return drivebase.getAutonomousCommand("TLFOUR");
   }
 
 

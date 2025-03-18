@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.440499999999999,
-        "y": 2.679499999999999
+        "x": 4.099795081967213,
+        "y": 2.724334016393442
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.953,
-        "y": 1.5192499999999995
+        "x": 3.280658159549038,
+        "y": 2.09523141680484
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "BL4 1"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 0.8659999999999991
       },
       "prevControl": {
-        "x": 2.837249999999999,
-        "y": 1.9092499999999983
+        "x": 2.7291786190234415,
+        "y": 1.934158361858358
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 52.224315694045345
+    "rotation": 54.0
   },
   "reversed": false,
   "folder": "BL4 2.5 Auto",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 121.60750224624884
+    "rotation": 59.99999999999999
   },
   "useDefaultConstraints": true
 }
