@@ -56,7 +56,7 @@ public class SwerveSubsystem extends SubsystemBase {
   /** Creates a new ExampleSubsystem. */
 
   File directory = new File(Filesystem.getDeployDirectory(),"swerve");
-  SwerveDrive  swerveDrive;
+  public SwerveDrive  swerveDrive;
 
   public SwerveSubsystem() {
 
@@ -203,16 +203,18 @@ public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity)
   /**
    * Get the path follower with events.
    *
-   * @param TLFOUR PathPlanner path name.
+   * @param forwardauto PathPlanner path name.
    * @return {@link AutoBuilder#followPath(TL4 #1)} path command.
    *  * @return {@link AutoBuilder#followPath(TL4 #1.5)} path command.
    *  * @return {@link AutoBuilder#followPath(TL4 #2)} path command.
    *  * @return {@link AutoBuilder#followPath(TL4 #2.5)} path command.
+   *  * @return {@link AutoBuilder#followPath(forward)} path command.
+   * 
    */
-  public Command getAutonomousCommand(String TLFOUR)
+  public Command getAutonomousCommand(String forwardauto)
   {
     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return new PathPlannerAuto(TLFOUR);
+    return new PathPlannerAuto(forwardauto);
   }
 
 }

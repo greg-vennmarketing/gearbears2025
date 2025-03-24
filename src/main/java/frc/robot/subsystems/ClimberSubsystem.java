@@ -1,7 +1,3 @@
-// Copyright (c) FIRST and other WPILib contributors.
-// Open Source Software; you can modify and/or share it under the terms of
-// the WPILib BSD license file in the root directory of this project.
-
 package frc.robot.subsystems;
 
 import com.revrobotics.spark.SparkLowLevel.MotorType;
@@ -10,47 +6,52 @@ import com.revrobotics.spark.SparkMax;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class ClimberSubsystem extends SubsystemBase {
-  SparkMax effector;
-  /** Creates a new Intake. */
-  public ClimberSubsystem() {
-    effector = new SparkMax(45, MotorType.kBrushed);
 
-  }
-  public void setShooterSpeed(double speed){
-    effector.set(speed);
+public class ClimberSubSystem extends SubsystemBase {
+   
+SparkMax climber;
+    public ClimberSubSystem(){
 
-  }
-
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-
-  }
+      climber = new SparkMax(45, MotorType.kBrushed);    
+    }
 
 
-  public Command shoot(){
-
-    effector.set(0.85);
-        return null;
-
-  }
- 
-
-  public Command stop(){
-    effector.set(0);
-
-    return null;
-  }
 
 
-public Command intake(){
+    public void ClimbStart(){
+        climber.set(1);
+    }
+     public void ClimbStop(){
+        climber.set(0);
+  
+    }
 
-  effector.set(0.3);
-      return null;
 
-}
-}
+    public void ClimbReverse(){
+        climber.set(-1);
+    }
+
+
+
+
+
+
+     public Command getClimbStopCommand() {
+        return this.runOnce(() -> {this.ClimbStop();});
+      }
+      public Command getRunClimb(){
+        return this.startEnd(()->ClimbStart(), ()->ClimbStop());
+    }
+
+
+          public Command getRunClimbReverse(){
+        return this.startEnd(()->ClimbReverse(), ()->ClimbStop());
+    }
+
+
+
+
+    }
 
 
 

@@ -7,14 +7,18 @@ package frc.robot;
 import frc.robot.Constants.ElevatorConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.AllignLeft;
+import frc.robot.commands.AllignRight;
 import frc.robot.commands.Autos;
 import frc.robot.commands.HomeElevator;
+import frc.robot.commands.Intake;
 import frc.robot.commands.L1Command;
 import frc.robot.commands.L4Command;
 import frc.robot.commands.Shoot;
 import frc.robot.commands.StopShoot;
 import frc.robot.subsystems.ElevatorSubsystem;
 import frc.robot.subsystems.EffectorSubsystem;
+import frc.robot.subsystems.AlgaeSubsystem;
+import frc.robot.subsystems.ClimberSubSystem;
 import frc.robot.subsystems.SwerveSubsystem;
 import swervelib.SwerveInputStream;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -62,20 +66,22 @@ import static edu.wpi.first.wpilibj2.command.button.RobotModeTriggers.*;
  * subsystems, commands, and trigger mappings) should be declared here.
  */
 public class RobotContainer {
-  public Client cli;
   // The robot's subsystems and commands are defined here...
   private final ElevatorSubsystem elevator = new ElevatorSubsystem();
   private final EffectorSubsystem effector = new EffectorSubsystem();
   private final SwerveSubsystem drivebase = new SwerveSubsystem();
-  // Replace with CommandPS4Controller or CommandJoystick if needed
+  private final ClimberSubSystem climber = new ClimberSubSystem();
+  private final AlgaeSubsystem algae = new AlgaeSubsystem();
+//   Replace with CommandPS4Controller or CommandJoystick if needed
   private final CommandXboxController m_driverController =
       new CommandXboxController(OperatorConstants.kDriverControllerPort);
   private final XboxController m_mechanismController =
       new XboxController(OperatorConstants.kMechanismControllerPort);
+    private Client cli;
 
   /** The container for the robot. Contains subsystems, OI devices, and commands. */
-  public RobotContainer() {
-    cli = new Client(10005);
+  public RobotContainer(Client cli) {
+    this.cli = cli;
     // Configure the trigger bindings
     DriverStation.silenceJoystickConnectionWarning(true);
     configureBindings();
@@ -87,6 +93,7 @@ public class RobotContainer {
     NamedCommands.registerCommand("L1Command", new L1Command(elevator));
     NamedCommands.registerCommand("L4Command", new L4Command(elevator));
     NamedCommands.registerCommand("HomeElevator", new HomeElevator(elevator));
+    NamedCommands.registerCommand("Intake", new Intake(effector).withTimeout(0.3));
 
   }
 
@@ -147,11 +154,13 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
    */
 
    private void configureBindings() {
-    new JoystickButton(m_mechanismController, XboxController.Button.kA.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L1)));
+    // new JoystickButton(m_mechanismController, XboxController.Button.kA.value)
+    //     .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L1)));
 
-    new JoystickButton(m_mechanismController, XboxController.Button.kB.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L2)));
+     new JoystickButton(m_mechanismController, XboxController.Button.kB.value)
+         .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L2)));
+
+
 
         
     new JoystickButton(m_mechanismController, XboxController.Button.kX.value)
@@ -162,22 +171,45 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
 
     new JoystickButton(m_mechanismController, XboxController.Button.kBack.value)
         .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.downPos)));
+    AllignLeft left = new AllignLeft(cli.id, cli.position, cli, drivebase);
+    AllignRight right = new AllignRight(cli.id, cli.position, cli, drivebase);
+    m_driverController.leftBumper().onTrue(left);
+    m_driverController.rightBumper().onTrue(right);
 
-    m_driverController.leftBumper().onTrue(new AllignLeft(cli.id, cli.position, cli, drivebase));
+    m_driverController.a().onTrue(new InstantCommand(()-> climber.ClimbStart())).onFalse(new InstantCommand(() -> climber.ClimbStop()));
+    m_driverController.b().onTrue(new InstantCommand(()-> climber.ClimbReverse())).onFalse(new InstantCommand(() -> climber.ClimbStop()));
 
-new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
-    .whileTrue(new InstantCommand(() -> effector.shoot()))
-    .onFalse(new InstantCommand(() -> effector.stop()));
+    m_driverController.x().onTrue(new InstantCommand(()-> algae.AlgaeStart())).onFalse(new InstantCommand(() -> algae.AlgaeStop()));
+    m_driverController.y().onTrue(new InstantCommand(()-> algae.AlgaeReverse())).onFalse(new InstantCommand(() -> algae.AlgaeStop()));
+    
+
+// new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+//     .whileTrue(new InstantCommand(() -> effector.shoot()))
+//     .onFalse(new InstantCommand(() -> effector.stop()));
+
+
+// new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+//     .whileTrue(new InstantCommand(() -> effector.intake()))
+//     .onFalse(new InstantCommand(() -> effector.stop()));
+
+
 
 
 new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
     .whileTrue(new InstantCommand(() -> effector.intake()))
     .onFalse(new InstantCommand(() -> effector.stop()));
 
+    new JoystickButton(m_mechanismController, XboxController.Button.kRightBumper.value)
+    .whileTrue(new InstantCommand(() -> effector.shoot()))
+    .onFalse(new InstantCommand(() -> effector.stop()));
+    
+new JoystickButton(m_mechanismController, XboxController.Button.kA.value)
+    .whileTrue(new InstantCommand(() -> climber.ClimbReverse()))
+    .onFalse(new InstantCommand(() -> climber.ClimbStop()));
 
-
-
-
+new JoystickButton(m_mechanismController, XboxController.Button.kStart.value)
+    .whileTrue(new InstantCommand(() -> climber.ClimbStart()))
+    .onFalse(new InstantCommand(() -> climber.ClimbStop()));
 
     
 
@@ -194,7 +226,7 @@ new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.valu
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("TLFOUR");
+    return drivebase.getAutonomousCommand("forwardauto");
   }
 
 
