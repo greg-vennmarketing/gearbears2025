@@ -35,7 +35,7 @@ public class EffectorSubsystem extends SubsystemBase {
   }
   public Command getShooterCommand() {
     return this.startEnd(() -> {
-      this.setShooterSpeed(0.8);
+      this.setShooterSpeed(1);
     }, () -> {
       this.setShooterSpeed(0);
     });

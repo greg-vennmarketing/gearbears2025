@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 3.85125,
-        "y": 5.195
+        "x": 3.560348360655738,
+        "y": 4.990010245901639
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5944965913560765,
-        "y": 6.219364418767728
+        "x": 2.3035949520118146,
+        "y": 6.014374664669367
       },
       "isLocked": false,
-      "linkedName": "TL4 2"
+      "linkedName": "Top2"
     },
     {
       "anchor": {

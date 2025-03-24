@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 3.85125,
-        "y": 5.195
+        "x": 3.560348360655738,
+        "y": 4.990010245901639
       },
       "prevControl": {
-        "x": 2.8802591589133826,
-        "y": 5.983699770368871
+        "x": 2.5893575195691207,
+        "y": 5.77871001627051
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "TL4 2"
+      "linkedName": "Top2"
     }
   ],
   "rotationTargets": [],

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
+import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 import java.io.IOException;
 
@@ -24,22 +26,33 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
  */
 public class Robot extends TimedRobot {
 
+  UsbCamera camera;
+
   private AHRS navX; 
   private Command m_autonomousCommand;
-
+ 
+  public Client cli;
   private final RobotContainer m_robotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
-   * initialization code.
+   * initialization code
    */
   public Robot() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
     // autonomous chooser on the dashboard.
+    cli = new Client(9480);
+    // Shuffleboard.getTab("vision test").add(CommandScheduler.getInstance());
 
-    m_robotContainer = new RobotContainer();
+    // camera1 = CameraServer.startAutomaticCapture(0);
+    // camera2 = CameraServer.startAutomaticCapture(1);
 
-   // CameraServer.startAutomaticCapture();
+    m_robotContainer = new RobotContainer(cli);
+
+    
+  // m_robotContainer = new RobotContainer();
+
+  //  CameraServer.startAutomaticCapture();
 
   }
 
@@ -107,7 +120,16 @@ public class Robot extends TimedRobot {
   /** This function is called periodically during operator control. */
   @Override
   public void teleopPeriodic() {
-
+    
+    try {
+      if (cli.counter % 2 == 0) {
+        cli.askForIn();
+      } else {
+        cli.read();
+      }
+    } catch (IOException e) {
+     System.out.println("vision network failed");
+    }
   }
 
   @Override
