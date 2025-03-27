@@ -53,7 +53,7 @@ public final class Constants {
     public static final double L1 = 0.3 * 0.3048;  // l1 = 18
     public static final double L2 = 0.9 * 0.3048;  // l1 = 32
     public static final double L3 = 1.5 * 0.3048;  // l1 = 48
-    public static final double L4 = 30.7 * 0.0254; // l1 = 72
+    public static final double L4 = 30 * 0.0254; // l1 = 72
     public static final double downPos = 0;
     public static final double test = -0.2 * 0.3048;
     public static final int leftElevatorID = 41;

@@ -204,10 +204,6 @@ public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity)
    * Get the path follower with events.
    *
    * @param forwardauto PathPlanner path name.
-   * @return {@link AutoBuilder#followPath(TL4 #1)} path command.
-   *  * @return {@link AutoBuilder#followPath(TL4 #1.5)} path command.
-   *  * @return {@link AutoBuilder#followPath(TL4 #2)} path command.
-   *  * @return {@link AutoBuilder#followPath(TL4 #2.5)} path command.
    *  * @return {@link AutoBuilder#followPath(forward)} path command.
    * 
    */

@@ -13,8 +13,12 @@ public class AllignLeft extends Command {
     int x = 0;
     int y = 1;
     int theta = 2;
-    double speed = 0.4;
-    int lastDir = 0;
+    boolean runningCurVel;
+    int countX;
+    int countY;
+    int maxX;
+    int maxY;
+    double t;
 
     public AllignLeft(int i, double[] pos, Client c, SwerveSubsystem driveSys) {
         this.id = i;
@@ -26,34 +30,51 @@ public class AllignLeft extends Command {
     public void initialize() {
         id = cli.id;
         position = cli.position;
-        lastDir = (position[y] < -0.11) ? -1 : 1;
+        runningCurVel = false;
+        countX = 0;
+        countY = 0;
     }
 
     public void execute() {
-        id = cli.id;
-        position = cli.position;
-
-        int dirY = (position[y] < -0.11) ? -1 : 1;
-
-        if (dirY != lastDir) {
-            speed = speed / 2;
+        if (!runningCurVel) {
+            id = cli.id;
+            position = cli.position;
+            position[y] += (position[y] > 0) ? -0.0762 : 0.0762;
+            position[x] /= 2;
+            maxX = (int)(position[x] * 100);
+            maxY = (int)(position[y] * 100) * ((position[y] < 0) ? -1 : 1);
+            runningCurVel = true;
+        } else {
+            if (countX % 10 != 9) {
+                double xSpeed = (countX < maxX) ? 0.5 : 0;
+                double ySpeed = ((countX < maxY) ? 0.5 : 0) * ((position[y] < 0) ? -1 : 1);
+                drive.swerveDrive.drive(new Translation2d(xSpeed, ySpeed), 0, false, false);
+                countX++;
+                countY++;
+            } else {
+                id = cli.id;
+                position = cli.position;
+                position[y] += (position[y] > 0) ? -0.0762 : 0.0762;
+                position[x] /= 2;
+                maxX = (int)(position[x] * 100);
+                maxY = (int)(position[y] * 100) * ((position[y] < 0) ? -1 : 1);
+                System.out.println("X: " + position[x] + " Y: " + position[y]);
+                countX = 0;
+                countY = 0;
+            }
         }
-        lastDir = dirY;
-
-        drive.swerveDrive.drive(new Translation2d(0, speed * dirY), 0, false, false);
     }
 
 
     public void end(boolean interupt) {
-        if (!interupt) {
-            speed = 0.4;
-            System.out.println("it worked: #vision");
-            drive.swerveDrive.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
-        }
+        System.out.println("it worked: #vision");
+        drive.swerveDrive.drive(new Translation2d(0.0, 0.0), 0.0, false, false);
+        countX = 0;
+        countY = 0;
+        runningCurVel = false;
     }
 
     public boolean isFinished() {
-        // 0.11 dif = 0.0254
-        return (speed < 0.1) || (id == 0); // if in specific range or it doesn't pick up an apriltag
+        return countX >= maxX && countY >= maxY;
     }
 }
