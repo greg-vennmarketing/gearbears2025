@@ -172,6 +172,10 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
 
     new JoystickButton(m_mechanismController, XboxController.Button.kBack.value)
         .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.downPos)));
+    AllignLeft left = new AllignLeft(cli.id, cli.position, cli, drivebase);
+    AllignRight right = new AllignRight(cli.id, cli.position, cli, drivebase);
+    m_driverController.leftBumper().onTrue(left);
+    m_driverController.rightBumper().onTrue(right);
 
     AllignLeft left = new AllignLeft(cli.id, cli.position, cli, drivebase);
     AllignRight right = new AllignRight(cli.id, cli.position, cli, drivebase);
@@ -189,6 +193,9 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
 //     .whileTrue(new InstantCommand(() -> effector.shoot()))
 //     .onFalse(new InstantCommand(() -> effector.stop()));
 
+// new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+//     .whileTrue(new InstantCommand(() -> effector.intake()))
+//     .onFalse(new InstantCommand(() -> effector.stop()));
 
 // new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
 //     .whileTrue(new InstantCommand(() -> effector.intake()))
@@ -196,6 +203,9 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
 
 
 
+new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
+    .whileTrue(new InstantCommand(() -> effector.intake()))
+    .onFalse(new InstantCommand(() -> effector.stop()));
 
 new JoystickButton(m_mechanismController, XboxController.Button.kLeftBumper.value)
     .whileTrue(new InstantCommand(() -> effector.intake()))
