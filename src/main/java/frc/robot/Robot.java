@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -21,6 +22,7 @@ import com.studica.frc.AHRS;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 /**
  * The methods in this class are called automatically corresponding to each mode, as described in
  * the TimedRobot documentation. If you change the name of this class or the package after creating
@@ -95,7 +97,25 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during autonomous. */
   @Override
-  public void autonomousPeriodic() {}
+  public void autonomousPeriodic() {
+
+    // Get yaw angle
+    SmartDashboard.putNumber("Gyro Yaw", m_robotContainer.drivebase.swerveDrive.getYaw().getDegrees());
+    
+    // Get angular velocity (rotation rate in degrees/sec)
+    SmartDashboard.putNumber("Gyro Rate", m_robotContainer.drivebase.swerveDrive.getFieldVelocity().omegaRadiansPerSecond * 57.3); // convert to degrees
+    
+    // Get pitch and roll (useful for debugging orientation)
+    SmartDashboard.putNumber("Gyro Pitch", m_robotContainer.drivebase.swerveDrive.getPitch().getDegrees());
+    SmartDashboard.putNumber("Gyro Roll", m_robotContainer.drivebase.swerveDrive.getRoll().getDegrees());
+    
+    // Get full pose (includes gyro heading)
+    Pose2d pose = m_robotContainer.drivebase.swerveDrive.getPose();
+    SmartDashboard.putNumber("Pose X", pose.getX());
+    SmartDashboard.putNumber("Pose Y", pose.getY());
+    SmartDashboard.putNumber("Pose Rotation", pose.getRotation().getDegrees());
+
+  }
 
   @Override
   public void teleopInit() {
@@ -125,6 +145,23 @@ public class Robot extends TimedRobot {
   @Override
   public void teleopPeriodic() {
     
+        
+    // Get yaw angle
+    SmartDashboard.putNumber("Gyro Yaw", m_robotContainer.drivebase.swerveDrive.getYaw().getDegrees());
+    
+    // Get angular velocity (rotation rate in degrees/sec)
+    SmartDashboard.putNumber("Gyro Rate", m_robotContainer.drivebase.swerveDrive.getFieldVelocity().omegaRadiansPerSecond * 57.3); // convert to degrees
+    
+    // Get pitch and roll (useful for debugging orientation)
+    SmartDashboard.putNumber("Gyro Pitch", m_robotContainer.drivebase.swerveDrive.getPitch().getDegrees());
+    SmartDashboard.putNumber("Gyro Roll", m_robotContainer.drivebase.swerveDrive.getRoll().getDegrees());
+    
+    // Get full pose (includes gyro heading)
+    Pose2d pose = m_robotContainer.drivebase.swerveDrive.getPose();
+    SmartDashboard.putNumber("Pose X", pose.getX());
+    SmartDashboard.putNumber("Pose Y", pose.getY());
+    SmartDashboard.putNumber("Pose Rotation", pose.getRotation().getDegrees());
+
     try {
       if (cli.counter % 2 == 0) {
         cli.askForIn();
