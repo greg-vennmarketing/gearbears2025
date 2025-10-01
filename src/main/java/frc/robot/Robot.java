@@ -7,6 +7,7 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import swervelib.imu.SwerveIMU;
 import edu.wpi.first.cameraserver.CameraServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.math.geometry.Pose2d;
@@ -160,8 +161,18 @@ public class Robot extends TimedRobot {
     Pose2d pose = m_robotContainer.drivebase.swerveDrive.getPose();
     SmartDashboard.putNumber("Pose X", pose.getX());
     SmartDashboard.putNumber("Pose Y", pose.getY());
-    SmartDashboard.putNumber("Pose Rotation", pose.getRotation().getDegrees());
+    //SmartDashboard.putNumber("Pose Rotation", pose.getRotation().getDegrees());
+    SmartDashboard.putNumber("Odom Heading", pose.getRotation().getDegrees());
 
+
+    // These definitely work with YAGSL SwerveDrive
+    SmartDashboard.putNumber("Heading", m_robotContainer.drivebase.swerveDrive.getYaw().getDegrees());
+    SmartDashboard.putNumber("Pitch", m_robotContainer.drivebase.swerveDrive.getPitch().getDegrees());
+    SmartDashboard.putNumber("Roll", m_robotContainer.drivebase.swerveDrive.getRoll().getDegrees());
+    
+    // Robot pose from odometry
+    //Pose2d pose = m_robotContainer.drivebase.swerveDrive.getPose();
+    
     try {
       if (cli.counter % 2 == 0) {
         cli.askForIn();
