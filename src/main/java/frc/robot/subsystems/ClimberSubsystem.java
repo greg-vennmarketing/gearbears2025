@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-public class ClimberSubSystem extends SubsystemBase {
+public class ClimberSubsystem extends SubsystemBase {
    
 SparkMax climber;
-    public ClimberSubSystem(){
+    public ClimberSubsystem(){
 
       climber = new SparkMax(45, MotorType.kBrushed);    
     }
