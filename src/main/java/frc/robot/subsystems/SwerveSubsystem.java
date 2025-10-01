@@ -203,15 +203,15 @@ public Command driveFieldOriented(Supplier<ChassisSpeeds> velocity)
   /**
    * Get the path follower with events.
    *
-   * @param auto67 PathPlanner path name.
-   *  * @return {@link AutoBuilder#followPath(test67)} path command.
+   * @param straight_back_20251001_v1 PathPlanner path name.
+   *  * @return {@link AutoBuilder#followPath(straight_back_20251001_v1_path)} path command.
 
    * 
    */
-  public Command getAutonomousCommand(String auto67)
+  public Command getAutonomousCommand(String straight_back_20251001_v1)
   {
     // Create a path following command using AutoBuilder. This will also trigger event markers.
-    return new PathPlannerAuto(auto67);
+    return new PathPlannerAuto(straight_back_20251001_v1);
   }
 
 }
