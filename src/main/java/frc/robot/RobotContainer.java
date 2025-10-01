@@ -224,7 +224,7 @@ new JoystickButton(m_mechanismController, XboxController.Button.kStart.value)
    */
   public Command getAutonomousCommand() {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("basicAuto");
+    return drivebase.getAutonomousCommand("auto67");
   }
 
 

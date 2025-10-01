@@ -128,7 +128,7 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
-	m_robotContainer.drivebase.swerveDrive.drive(new Translation2d(0, 0), 0, false, false);
+	m_robotContainer.drivebase.swerveDrive.drive(new Translation2d(0, 0), 0, true, false);
   }
 
 
