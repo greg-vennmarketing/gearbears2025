@@ -156,7 +156,7 @@ Command driveFieldOrientedDirectAngleSim = drivebase.driveFieldOriented(driveDir
 
    private void configureBindings() {
     new JoystickButton(m_mechanismController, XboxController.Button.kA.value)
-        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L1)));
+        .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.downPos)));
 
      new JoystickButton(m_mechanismController, XboxController.Button.kB.value)
          .onTrue(new InstantCommand(() -> elevator.setPositionInches(ElevatorConstants.L2)));

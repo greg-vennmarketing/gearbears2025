@@ -41,6 +41,12 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "straight_back-2"
+          }
+        },
+        {
           "type": "named",
           "data": {
             "name": "HomeElevator"
